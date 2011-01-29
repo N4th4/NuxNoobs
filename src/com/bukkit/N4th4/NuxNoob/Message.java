@@ -14,6 +14,9 @@ public class Message extends TimerTask {
 	}
 
 	@Override
+	/**
+	 * Envoie le message à tous les noobs
+	 */
 	public void run() {
 		Hashtable<String, Player> ht = listener.getPlayersList();
 		Enumeration<Player> e = ht.elements();
