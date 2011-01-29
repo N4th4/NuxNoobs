@@ -1,0 +1,5 @@
+name: NuxNoob
+
+main: com.bukkit.N4th4.NuxNoob.NuxNoob
+
+version: 1.0
