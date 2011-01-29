@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.File;
 
 /**
  * Handle events for all Player related events
@@ -23,20 +24,34 @@ public class NuxNoobPlayerListener extends PlayerListener {
     
     public NuxNoobPlayerListener(NuxNoob instance) {
         plugin = instance;
-        timer.schedule(new Message(this), 0, 5*60*1000);
         
         String ligne = new String("");
         BufferedReader br;
+		
+		File test = new File("plugins/NuxNoob/");
+		if (!test.exists()){
+			test.mkdirs();
+		}
+			
 		try {
-			br = new BufferedReader(new FileReader("messageNoob.txt"));
+			br = new BufferedReader(new FileReader("plugins/NuxNoob/message.txt"));
 			while ((ligne = br.readLine()) != null)
 			    noobMessage.add(ligne);
-        } catch (FileNotFoundException e) {
-        	plugin.logInfo("Fichier \"messageNoob.txt\" non trouvé");
-			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			NuxNoob.logInfo("Vous devez créer le fichier \"plugins/NuxNoob/message.txt\"");
 		} catch (IOException e) {
-			e.printStackTrace();
+			NuxNoob.logInfo("Le contenu du fichier \"plugins/NuxNoob/message.txt\" n'est pas valable");
 		}
+	
+		try {
+		br = new BufferedReader(new FileReader("plugins/NuxNoob/timer.txt"));
+		int time = Integer.valueOf(br.readLine()).intValue();
+		timer.schedule(new Message(this), 0, time*1000);
+   		} catch (FileNotFoundException e) {
+   			NuxNoob.logInfo("Vous devez créer le fichier \"plugins/NuxNoob/timer.txt\"");
+   		} catch (IOException e) {
+   			NuxNoob.logInfo("Le fichier \"plugins/NuxNoob/timer.txt\" doit contenir un nombre de secondes");
+   		}
     }
 
     public Hashtable<String, Player> getPlayersList() {

@@ -25,7 +25,7 @@ public class NuxNoob extends JavaPlugin {
     private final NuxNoobPlayerListener playerListener = new NuxNoobPlayerListener(this);
     private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
     public static Permissions Permissions = null;
-    private final Logger log = Logger.getLogger("Minecraft");
+    private final static Logger log = Logger.getLogger("Minecraft");
 
     public NuxNoob(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
         super(pluginLoader, instance, desc, folder, plugin, cLoader);
@@ -45,7 +45,7 @@ public class NuxNoob extends JavaPlugin {
             }
         }
     }
-    public void logInfo(String message) {
+    public static void logInfo(String message) {
     	log.info("[NuxNoob] "+message);
     }
     public void onEnable() {
