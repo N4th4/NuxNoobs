@@ -1,32 +1,36 @@
 package com.bukkit.N4th4.NuxNoob;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerListener;
-import java.util.Hashtable;
-import java.util.ArrayList;
-import java.util.Timer;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.File;
+import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.Timer;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerListener;
 
 /**
  * Handle events for all Player related events
  * @author N4th4
  */
 public class NuxNoobPlayerListener extends PlayerListener {
-    private final NuxNoob plugin;
-    private final Hashtable<String, Player> playersList = new Hashtable<String, Player>();
-    private Timer timer = new Timer();
+    //private final NuxNoob plugin;
+    private final Hashtable<String, Player> playersList;
+    private final ArrayList<String> noobMessage;
+    private Timer timer;
     private int time;
-    private final ArrayList<String> noobMessage = new ArrayList<String>();
     
     public NuxNoobPlayerListener(NuxNoob instance) {
-        plugin = instance;
-        loadFiles();
+        //plugin = instance;
+    	playersList = new Hashtable<String, Player>();
+    	timer = new Timer();
+    	noobMessage = new ArrayList<String>();
+    	loadFiles();
     }
     /*
      * Envoie le message au joueur puis l'ajoute à la liste
@@ -34,7 +38,7 @@ public class NuxNoobPlayerListener extends PlayerListener {
      */
     public void onPlayerJoin(PlayerEvent event) {
     	Player player = event.getPlayer();
-    	if (NuxNoob.Permissions.Security.getGroup(player.getName()).equals("Default")) {
+    	if (NuxNoobPermissions.getGroup(player.getName()).equals("Default")) {
         	playersList.put(player.getName(), player);
 			for(int i = 0; i < noobMessage.size(); i++)
             {
@@ -48,7 +52,7 @@ public class NuxNoobPlayerListener extends PlayerListener {
      */
     public void onPlayerQuit(PlayerEvent event) {
     	Player player = event.getPlayer();
-    	if (NuxNoob.Permissions.Security.getGroup(player.getName()).equals("Default")) {
+    	if (NuxNoobPermissions.getGroup(player.getName()).equals("Default")) {
     		playersList.remove(player.getName());
     	}
     }
@@ -62,7 +66,7 @@ public class NuxNoobPlayerListener extends PlayerListener {
     		if (command.length == 1) {
     			player.sendMessage("[NuxNoob] Donnez au moins un argument");
     		} else if (command[1].equalsIgnoreCase("reload")) {
-    			if (NuxNoob.Permissions.Security.has(player, "nuxnoob.reload")) {
+    			if (NuxNoobPermissions.has(player, "nuxnoob.reload")) {
     				loadFiles();
         			player.sendMessage("[NuxNoob] Fichiers rechargés");
        				player.sendMessage("[NuxNoob] Timer : "+time+" secondes");
@@ -100,9 +104,9 @@ public class NuxNoobPlayerListener extends PlayerListener {
     		while ((ligne = br.readLine()) != null)
     			noobMessage.add(ligne);
     	} catch (FileNotFoundException e) {
-    		NuxNoob.logInfo("Vous devez créer le fichier \"plugins/NuxNoob/message.txt\"");
+    		NuxNoobLogger.severe("Vous devez créer le fichier \"plugins/NuxNoob/message.txt\"");
     	} catch (IOException e) {
-    		NuxNoob.logInfo("Le contenu du fichier \"plugins/NuxNoob/message.txt\" n'est pas valable");
+    		NuxNoobLogger.severe("Le contenu du fichier \"plugins/NuxNoob/message.txt\" n'est pas valable");
     	}
     	
     	try {
@@ -110,9 +114,9 @@ public class NuxNoobPlayerListener extends PlayerListener {
     		time = Integer.valueOf(br.readLine()).intValue();
     		timer.schedule(new Message(this), 0, time*1000);
     	} catch (FileNotFoundException e) {
-    		NuxNoob.logInfo("Vous devez créer le fichier \"plugins/NuxNoob/timer.txt\"");
+    		NuxNoobLogger.severe("Vous devez créer le fichier \"plugins/NuxNoob/timer.txt\"");
     	} catch (IOException e) {
-    		NuxNoob.logInfo("Le fichier \"plugins/NuxNoob/timer.txt\" doit contenir un nombre de secondes");
+    		NuxNoobLogger.severe("Le fichier \"plugins/NuxNoob/timer.txt\" doit contenir un nombre de secondes");
     	}
     }
 	//		GETTERS			//
