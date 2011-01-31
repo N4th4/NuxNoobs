@@ -1,9 +1,5 @@
 package com.bukkit.N4th4.NuxNoob;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.File;
 import java.util.Hashtable;
 import java.util.ArrayList;
@@ -13,24 +9,25 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.util.config.Configuration;
 
 /**
  * Handle events for all Player related events
  * @author N4th4
  */
 public class NuxNoobPlayerListener extends PlayerListener {
-    //private final NuxNoob plugin;
+    private final NuxNoob plugin;
     private final Hashtable<String, Player> playersList;
-    private final ArrayList<String> noobMessage;
+    private ArrayList<String> noobMessage;
     private Timer timer;
     private int time;
     
     public NuxNoobPlayerListener(NuxNoob instance) {
-        //plugin = instance;
+        plugin = instance;
     	playersList = new Hashtable<String, Player>();
     	timer = new Timer();
     	noobMessage = new ArrayList<String>();
-    	loadFiles();
+    	loadConfig();
     }
     /*
      * Envoie le message au joueur puis l'ajoute à la liste
@@ -67,7 +64,7 @@ public class NuxNoobPlayerListener extends PlayerListener {
     			player.sendMessage("[NuxNoob] Donnez au moins un argument");
     		} else if (command[1].equalsIgnoreCase("reload")) {
     			if (NuxNoobPermissions.has(player, "nuxnoob.reload")) {
-    				loadFiles();
+    				loadConfig();
         			player.sendMessage("[NuxNoob] Fichiers rechargés");
        				player.sendMessage("[NuxNoob] Timer : "+time+" secondes");
        				player.sendMessage("[NuxNoob] Message :");
@@ -87,36 +84,20 @@ public class NuxNoobPlayerListener extends PlayerListener {
     /*
      * Recharges les fichier de conf' quand demandé
      */
-    private void loadFiles() {
-    	String ligne = new String("");
-    	BufferedReader br;
-    	noobMessage.clear();
-    	timer.cancel();
-    	timer = new Timer();
-	
-    	File test = new File("plugins/NuxNoob/");
-    	if (!test.exists()){
-    		test.mkdirs();
-    	}
-    	
-    	try {
-    		br = new BufferedReader(new FileReader("plugins/NuxNoob/message.txt"));
-    		while ((ligne = br.readLine()) != null)
-    			noobMessage.add(ligne);
-    	} catch (FileNotFoundException e) {
-    		NuxNoobLogger.severe("Vous devez créer le fichier \"plugins/NuxNoob/message.txt\"");
-    	} catch (IOException e) {
-    		NuxNoobLogger.severe("Le contenu du fichier \"plugins/NuxNoob/message.txt\" n'est pas valable");
-    	}
-    	
-    	try {
-    		br = new BufferedReader(new FileReader("plugins/NuxNoob/timer.txt"));
-    		time = Integer.valueOf(br.readLine()).intValue();
-    		timer.schedule(new Message(this), 0, time*1000);
-    	} catch (FileNotFoundException e) {
-    		NuxNoobLogger.severe("Vous devez créer le fichier \"plugins/NuxNoob/timer.txt\"");
-    	} catch (IOException e) {
-    		NuxNoobLogger.severe("Le fichier \"plugins/NuxNoob/timer.txt\" doit contenir un nombre de secondes");
+    private void loadConfig() {
+    	File configFile = new File(plugin.getDataFolder()+"/config.yml");
+    	if (configFile.exists()) {
+    		Configuration config = new Configuration(configFile);
+        	config.load();
+        	time = config.getInt("timer", 0);
+        	noobMessage = (ArrayList<String>) config.getStringList("message", noobMessage);
+        	if (time != 0){
+            	timer.cancel();
+            	timer = new Timer();
+            	timer.schedule(new Message(this), 0, time*1000);
+        	}
+    	} else {
+    		NuxNoobLogger.severe("Fichier de configuration non-trouvé");
     	}
     }
 	//		GETTERS			//
