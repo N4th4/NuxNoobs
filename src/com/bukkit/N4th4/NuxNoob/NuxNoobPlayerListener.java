@@ -11,10 +11,6 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.util.config.Configuration;
 
-/**
- * Handle events for all Player related events
- * @author N4th4
- */
 public class NuxNoobPlayerListener extends PlayerListener {
     private final NuxNoob plugin;
     private final Hashtable<String, Player> playersList;
@@ -29,10 +25,6 @@ public class NuxNoobPlayerListener extends PlayerListener {
     	noobMessage = new ArrayList<String>();
     	loadConfig();
     }
-    /*
-     * Envoie le message au joueur puis l'ajoute à la liste
-     * @see org.bukkit.event.player.PlayerListener#onPlayerJoin(org.bukkit.event.player.PlayerEvent)
-     */
     public void onPlayerJoin(PlayerEvent event) {
     	Player player = event.getPlayer();
     	if (NuxNoobPermissions.getGroup(player.getName()).equals("Default")) {
@@ -43,19 +35,12 @@ public class NuxNoobPlayerListener extends PlayerListener {
             }
     	}
     }
-    /*
-     * Supprime le joueur de la liste
-     * @see org.bukkit.event.player.PlayerListener#onPlayerQuit(org.bukkit.event.player.PlayerEvent)
-     */
     public void onPlayerQuit(PlayerEvent event) {
     	Player player = event.getPlayer();
     	if (NuxNoobPermissions.getGroup(player.getName()).equals("Default")) {
     		playersList.remove(player.getName());
     	}
     }
-    /*
-     * Traite les commandes 
-     */
     public void onPlayerCommand(PlayerChatEvent event) {
     	String[] command = event.getMessage().split(" ");
     	if (command[0].equalsIgnoreCase("/NuxNoob")) {
@@ -81,9 +66,6 @@ public class NuxNoobPlayerListener extends PlayerListener {
         	event.setCancelled(true);
     	}
     }
-    /*
-     * Recharges les fichier de conf' quand demandé
-     */
     private void loadConfig() {
     	File configFile = new File(plugin.getDataFolder()+"/config.yml");
     	if (configFile.exists()) {
@@ -95,6 +77,8 @@ public class NuxNoobPlayerListener extends PlayerListener {
             	timer.cancel();
             	timer = new Timer();
             	timer.schedule(new Message(this), 0, time*1000);
+        	} else {
+        		NuxNoobLogger.severe("Le timer doit être plus grand que 0");
         	}
     	} else {
     		NuxNoobLogger.severe("Fichier de configuration non-trouvé");

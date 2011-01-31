@@ -12,11 +12,6 @@ import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
 
-/**
- * NuxNoob for Bukkit
- *
- * @author N4th4
- */
 public class NuxNoob extends JavaPlugin {
     private final NuxNoobPlayerListener playerListener;
     private final HashMap<Player, Boolean> debugees;
