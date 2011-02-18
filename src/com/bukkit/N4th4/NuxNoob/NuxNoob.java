@@ -31,10 +31,9 @@ public class NuxNoob extends JavaPlugin {
         pm.registerEvent(Event.Type.PLAYER_COMMAND,  playerListener, Priority.Normal, this);
 
         PluginDescriptionFile pdfFile = this.getDescription();
-        NuxNoobLogger.info( pdfFile.getName() + " version " + pdfFile.getVersion() + " est activé !" );
+        NuxNoobLogger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " est activé !");
     }
     public void onDisable() {
-        NuxNoobLogger.info("Au revoir !");
     }
     public boolean isDebugging(final Player player) {
         if (debugees.containsKey(player)) {
@@ -43,7 +42,6 @@ public class NuxNoob extends JavaPlugin {
             return false;
         }
     }
-
     public void setDebugging(final Player player, final boolean value) {
         debugees.put(player, value);
     }

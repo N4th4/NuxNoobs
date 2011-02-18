@@ -13,10 +13,10 @@ import org.bukkit.util.config.Configuration;
 
 public class NuxNoobPlayerListener extends PlayerListener {
     private final NuxNoob plugin;
-    private final Hashtable<String, Player> playersList;
-    private ArrayList<String> noobMessage;
     private Timer timer;
     private int time;
+    public final Hashtable<String, Player> playersList;
+    public ArrayList<String> noobMessage;
     
     public NuxNoobPlayerListener(NuxNoob instance) {
         plugin = instance;
@@ -50,7 +50,7 @@ public class NuxNoobPlayerListener extends PlayerListener {
     		} else if (command[1].equalsIgnoreCase("reload")) {
     			if (NuxNoobPermissions.has(player, "nuxnoob.reload")) {
     				loadConfig();
-        			player.sendMessage("[NuxNoob] Fichiers rechargés");
+        			player.sendMessage("[NuxNoob] Fichier rechargé");
        				player.sendMessage("[NuxNoob] Timer : "+time+" secondes");
        				player.sendMessage("[NuxNoob] Message :");
        				for(int i = 0; i < noobMessage.size(); i++)
@@ -81,15 +81,8 @@ public class NuxNoobPlayerListener extends PlayerListener {
         		NuxNoobLogger.severe("Le timer doit être plus grand que 0");
         	}
     	} else {
-    		NuxNoobLogger.severe("Fichier de configuration non-trouvé");
+    		NuxNoobLogger.severe("Fichier de configuration non trouvé : "+plugin.getDataFolder()+"/config.yml");
     	}
-    }
-	//		GETTERS			//
-    public Hashtable<String, Player> getPlayersList() {
-    	return playersList;
-    }
-    public ArrayList<String> getNoobMessage() {
-    	return noobMessage;
     }
 }
 

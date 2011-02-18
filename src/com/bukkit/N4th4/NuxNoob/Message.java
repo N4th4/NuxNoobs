@@ -13,15 +13,11 @@ public class Message extends TimerTask {
 	public Message(NuxNoobPlayerListener parentListener) {
 		listener = parentListener;
 	}
-
 	@Override
-	/**
-	 * Envoie le message à tous les noobs
-	 */
 	public void run() {
-		Hashtable<String, Player> ht = listener.getPlayersList();
+		Hashtable<String, Player> ht = listener.playersList;
 		Enumeration<Player> e = ht.elements();
-		ArrayList<String> al = listener.getNoobMessage();
+		ArrayList<String> al = listener.noobMessage;
 		while(e.hasMoreElements()) {
 			Player player = e.nextElement();
 			for(int i = 0; i < al.size(); i++)
