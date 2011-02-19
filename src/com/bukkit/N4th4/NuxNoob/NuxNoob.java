@@ -22,19 +22,22 @@ public class NuxNoob extends JavaPlugin {
         playerListener = new NuxNoobPlayerListener(this);
         debugees = new HashMap<Player, Boolean>();
     }
+
     public void onEnable() {
-    	NuxNoobPermissions.initialize(getServer());
-    	
+        NuxNoobPermissions.initialize(getServer());
+
         PluginManager pm = getServer().getPluginManager();
-        pm.registerEvent(Event.Type.PLAYER_JOIN,  playerListener, Priority.Normal, this);
-        pm.registerEvent(Event.Type.PLAYER_QUIT,  playerListener, Priority.Normal, this);
-        pm.registerEvent(Event.Type.PLAYER_COMMAND,  playerListener, Priority.Normal, this);
+        pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
+        pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Priority.Normal, this);
+        pm.registerEvent(Event.Type.PLAYER_COMMAND, playerListener, Priority.Normal, this);
 
         PluginDescriptionFile pdfFile = this.getDescription();
         NuxNoobLogger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " est activé !");
     }
+
     public void onDisable() {
     }
+
     public boolean isDebugging(final Player player) {
         if (debugees.containsKey(player)) {
             return debugees.get(player);
@@ -42,8 +45,8 @@ public class NuxNoob extends JavaPlugin {
             return false;
         }
     }
+
     public void setDebugging(final Player player, final boolean value) {
         debugees.put(player, value);
     }
 }
-
