@@ -3,7 +3,7 @@ package com.bukkit.N4th4.NuxNoob;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-public class NuxNoobLogger {
+public class NNLogger {
     private static Logger log;
 
     public static void initialize() {

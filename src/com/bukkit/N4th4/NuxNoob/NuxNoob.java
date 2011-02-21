@@ -10,17 +10,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
 
 public class NuxNoob extends JavaPlugin {
-    private final NuxNoobPlayerListener playerListener;
+    private final NNPlayerListener playerListener;
     private final HashMap<Player, Boolean> debugees;
 
     public NuxNoob() {
-        NuxNoobLogger.initialize();
-        playerListener = new NuxNoobPlayerListener(this);
+        NNLogger.initialize();
+        playerListener = new NNPlayerListener(this);
         debugees = new HashMap<Player, Boolean>();
     }
 
     public void onEnable() {
-        NuxNoobPermissions.initialize(getServer());
+        NNPermissions.initialize(getServer());
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
@@ -28,7 +28,7 @@ public class NuxNoob extends JavaPlugin {
         pm.registerEvent(Event.Type.PLAYER_COMMAND, playerListener, Priority.Normal, this);
 
         PluginDescriptionFile pdfFile = this.getDescription();
-        NuxNoobLogger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " est activé !");
+        NNLogger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " est activé !");
     }
 
     public void onDisable() {

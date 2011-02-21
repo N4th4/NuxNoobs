@@ -11,14 +11,14 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.util.config.Configuration;
 
-public class NuxNoobPlayerListener extends PlayerListener {
+public class NNPlayerListener extends PlayerListener {
     private final NuxNoob plugin;
     private Timer timer;
     private int time;
     public final Hashtable<String, Player> playersList;
     public ArrayList<String> noobMessage;
 
-    public NuxNoobPlayerListener(NuxNoob instance) {
+    public NNPlayerListener(NuxNoob instance) {
         plugin = instance;
         playersList = new Hashtable<String, Player>();
         timer = new Timer();
@@ -28,7 +28,7 @@ public class NuxNoobPlayerListener extends PlayerListener {
 
     public void onPlayerJoin(PlayerEvent event) {
         Player player = event.getPlayer();
-        if (NuxNoobPermissions.getGroup(player.getName()).equals("Default")) {
+        if (NNPermissions.getGroup(player.getName()).equals("Default")) {
             playersList.put(player.getName(), player);
             for (int i = 0; i < noobMessage.size(); i++) {
                 player.sendMessage(noobMessage.get(i));
@@ -38,7 +38,7 @@ public class NuxNoobPlayerListener extends PlayerListener {
 
     public void onPlayerQuit(PlayerEvent event) {
         Player player = event.getPlayer();
-        if (NuxNoobPermissions.getGroup(player.getName()).equals("Default")) {
+        if (NNPermissions.getGroup(player.getName()).equals("Default")) {
             playersList.remove(player.getName());
         }
     }
@@ -50,7 +50,7 @@ public class NuxNoobPlayerListener extends PlayerListener {
             if (command.length == 1) {
                 player.sendMessage("[NuxNoob] Donnez au moins un argument");
             } else if (command[1].equalsIgnoreCase("reload")) {
-                if (NuxNoobPermissions.has(player, "nuxnoob.reload")) {
+                if (NNPermissions.has(player, "nuxnoob.reload")) {
                     loadConfig();
                     player.sendMessage("[NuxNoob] Fichier rechargé");
                     player.sendMessage("[NuxNoob] Timer : " + time + " secondes");
@@ -78,12 +78,12 @@ public class NuxNoobPlayerListener extends PlayerListener {
             if (time != 0) {
                 timer.cancel();
                 timer = new Timer();
-                timer.schedule(new Message(this), 0, time * 1000);
+                timer.schedule(new NNMessage(this), 0, time * 1000);
             } else {
-                NuxNoobLogger.severe("Le timer doit être plus grand que 0");
+                NNLogger.severe("Le timer doit être plus grand que 0");
             }
         } else {
-            NuxNoobLogger.severe("Fichier de configuration non trouvé : " + plugin.getDataFolder() + "/config.yml");
+            NNLogger.severe("Fichier de configuration non trouvé : " + plugin.getDataFolder() + "/config.yml");
         }
     }
 }

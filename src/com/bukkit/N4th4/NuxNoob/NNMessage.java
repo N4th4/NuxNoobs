@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 import org.bukkit.entity.Player;
 
-public class Message extends TimerTask {
-    private final NuxNoobPlayerListener listener;
+public class NNMessage extends TimerTask {
+    private final NNPlayerListener listener;
 
-    public Message(NuxNoobPlayerListener parentListener) {
+    public NNMessage(NNPlayerListener parentListener) {
         listener = parentListener;
     }
 
