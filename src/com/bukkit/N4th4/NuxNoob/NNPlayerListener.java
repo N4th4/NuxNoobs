@@ -1,7 +1,6 @@
 package com.bukkit.N4th4.NuxNoob;
 
 import java.io.File;
-import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -12,15 +11,14 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.util.config.Configuration;
 
 public class NNPlayerListener extends PlayerListener {
-    private final NuxNoob plugin;
+    public final NuxNoob plugin;
     private Timer timer;
     private int time;
-    public final Hashtable<String, Player> playersList;
+    public String group;
     public ArrayList<String> noobMessage;
 
     public NNPlayerListener(NuxNoob instance) {
         plugin = instance;
-        playersList = new Hashtable<String, Player>();
         timer = new Timer();
         noobMessage = new ArrayList<String>();
         loadConfig();
@@ -28,18 +26,10 @@ public class NNPlayerListener extends PlayerListener {
 
     public void onPlayerJoin(PlayerEvent event) {
         Player player = event.getPlayer();
-        if (NNPermissions.getGroup(player.getName()).equals("Default")) {
-            playersList.put(player.getName(), player);
+        if (NNPermissions.getGroup(player.getName()).equals(group)) {
             for (int i = 0; i < noobMessage.size(); i++) {
                 player.sendMessage(noobMessage.get(i));
             }
-        }
-    }
-
-    public void onPlayerQuit(PlayerEvent event) {
-        Player player = event.getPlayer();
-        if (NNPermissions.getGroup(player.getName()).equals("Default")) {
-            playersList.remove(player.getName());
         }
     }
 
@@ -53,6 +43,7 @@ public class NNPlayerListener extends PlayerListener {
                 if (NNPermissions.has(player, "nuxnoob.reload")) {
                     loadConfig();
                     player.sendMessage("[NuxNoob] Fichier rechargé");
+                    player.sendMessage("[NuxNoob] Groupe : " + group);
                     player.sendMessage("[NuxNoob] Timer : " + time + " secondes");
                     player.sendMessage("[NuxNoob] Message :");
                     for (int i = 0; i < noobMessage.size(); i++) {
@@ -69,12 +60,13 @@ public class NNPlayerListener extends PlayerListener {
     }
 
     private void loadConfig() {
-        File configFile = new File(plugin.getDataFolder() + "/config.yml");
+        File configFile = new File("plugins/NuxNoob/config.yml");
         if (configFile.exists()) {
             Configuration config = new Configuration(configFile);
             config.load();
             time = config.getInt("timer", 0);
             noobMessage = (ArrayList<String>) config.getStringList("message", noobMessage);
+            group = config.getString("group", "Default");
             if (time != 0) {
                 timer.cancel();
                 timer = new Timer();
@@ -83,7 +75,7 @@ public class NNPlayerListener extends PlayerListener {
                 NNLogger.severe("Le timer doit être plus grand que 0");
             }
         } else {
-            NNLogger.severe("Fichier de configuration non trouvé : " + plugin.getDataFolder() + "/config.yml");
+            NNLogger.severe("Fichier de configuration non trouvé : plugins/NuxNoob/config.yml");
         }
     }
 }
