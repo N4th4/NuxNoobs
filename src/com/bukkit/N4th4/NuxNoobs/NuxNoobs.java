@@ -1,4 +1,4 @@
-package com.bukkit.N4th4.NuxNoob;
+package com.bukkit.N4th4.NuxNoobs;
 
 import java.util.HashMap;
 
@@ -9,11 +9,11 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
 
-public class NuxNoob extends JavaPlugin {
+public class NuxNoobs extends JavaPlugin {
     private final NNPlayerListener playerListener;
     private final HashMap<Player, Boolean> debugees;
 
-    public NuxNoob() {
+    public NuxNoobs() {
         NNLogger.initialize();
         playerListener = new NNPlayerListener(this);
         debugees = new HashMap<Player, Boolean>();

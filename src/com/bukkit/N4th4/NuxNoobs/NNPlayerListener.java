@@ -1,4 +1,4 @@
-package com.bukkit.N4th4.NuxNoob;
+package com.bukkit.N4th4.NuxNoobs;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,13 +11,13 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.util.config.Configuration;
 
 public class NNPlayerListener extends PlayerListener {
-    public final NuxNoob plugin;
+    public final NuxNoobs plugin;
     private Timer timer;
     private int time;
     public String group;
     public ArrayList<String> noobMessage;
 
-    public NNPlayerListener(NuxNoob instance) {
+    public NNPlayerListener(NuxNoobs instance) {
         plugin = instance;
         timer = new Timer();
         noobMessage = new ArrayList<String>();
@@ -35,32 +35,32 @@ public class NNPlayerListener extends PlayerListener {
 
     public void onPlayerCommand(PlayerChatEvent event) {
         String[] command = event.getMessage().split(" ");
-        if (command[0].equalsIgnoreCase("/NuxNoob")) {
+        if (command[0].equalsIgnoreCase("/NuxNoobs")) {
             Player player = event.getPlayer();
             if (command.length == 1) {
-                player.sendMessage("[NuxNoob] Donnez au moins un argument");
+                player.sendMessage("[NuxNoobs] Donnez au moins un argument");
             } else if (command[1].equalsIgnoreCase("reload")) {
                 if (NNPermissions.has(player, "nuxnoob.reload")) {
                     loadConfig();
-                    player.sendMessage("[NuxNoob] Fichier rechargé");
-                    player.sendMessage("[NuxNoob] Groupe : " + group);
-                    player.sendMessage("[NuxNoob] Timer : " + time + " secondes");
-                    player.sendMessage("[NuxNoob] Message :");
+                    player.sendMessage("[NuxNoobs] Fichier rechargé");
+                    player.sendMessage("[NuxNoobs] Groupe : " + group);
+                    player.sendMessage("[NuxNoobs] Timer : " + time + " secondes");
+                    player.sendMessage("[NuxNoobs] Message :");
                     for (int i = 0; i < noobMessage.size(); i++) {
                         player.sendMessage(noobMessage.get(i));
                     }
                 } else {
-                    player.sendMessage("[NuxNoob] Permission refusée");
+                    player.sendMessage("[NuxNoobs] Permission refusée");
                 }
             } else {
-                player.sendMessage("[NuxNoob] Commande inconnue");
+                player.sendMessage("[NuxNoobs] Commande inconnue");
             }
             event.setCancelled(true);
         }
     }
 
     private void loadConfig() {
-        File configFile = new File("plugins/NuxNoob/config.yml");
+        File configFile = new File("plugins/NuxNoobs/config.yml");
         if (configFile.exists()) {
             Configuration config = new Configuration(configFile);
             config.load();
@@ -75,7 +75,7 @@ public class NNPlayerListener extends PlayerListener {
                 NNLogger.severe("Le timer doit être plus grand que 0");
             }
         } else {
-            NNLogger.severe("Fichier de configuration non trouvé : plugins/NuxNoob/config.yml");
+            NNLogger.severe("Fichier de configuration non trouvé : plugins/NuxNoobs/config.yml");
         }
     }
 }

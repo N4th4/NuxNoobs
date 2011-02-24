@@ -1,4 +1,4 @@
-package com.bukkit.N4th4.NuxNoob;
+package com.bukkit.N4th4.NuxNoobs;
 
 import java.util.TimerTask;
 import java.util.ArrayList;

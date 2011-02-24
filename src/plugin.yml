@@ -1,5 +1,5 @@
-name: NuxNoob
+name: NuxNoobs
 
-main: com.bukkit.N4th4.NuxNoob.NuxNoob
+main: com.bukkit.N4th4.NuxNoobs.NuxNoobs
 
-version: 1.0-r4
+version: 1.1

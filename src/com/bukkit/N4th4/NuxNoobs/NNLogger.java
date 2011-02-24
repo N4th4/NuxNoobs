@@ -1,4 +1,4 @@
-package com.bukkit.N4th4.NuxNoob;
+package com.bukkit.N4th4.NuxNoobs;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -11,10 +11,10 @@ public class NNLogger {
     }
 
     public static void info(String message) {
-        log.log(Level.INFO, "[NuxNoob] " + message);
+        log.log(Level.INFO, "[NuxNoobs] " + message);
     }
 
     public static void severe(String message) {
-        log.log(Level.SEVERE, "[NuxNoob] " + message);
+        log.log(Level.SEVERE, "[NuxNoobs] " + message);
     }
 }
