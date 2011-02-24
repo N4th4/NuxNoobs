@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerEvent;
@@ -38,22 +39,22 @@ public class NNPlayerListener extends PlayerListener {
         if (command[0].equalsIgnoreCase("/NuxNoobs")) {
             Player player = event.getPlayer();
             if (command.length == 1) {
-                player.sendMessage("[NuxNoobs] Donnez au moins un argument");
+                player.sendMessage(ChatColor.RED + "[NuxNoobs] Give at least one argument");
             } else if (command[1].equalsIgnoreCase("reload")) {
                 if (NNPermissions.has(player, "nuxnoob.reload")) {
                     loadConfig();
-                    player.sendMessage("[NuxNoobs] Fichier rechargé");
-                    player.sendMessage("[NuxNoobs] Groupe : " + group);
-                    player.sendMessage("[NuxNoobs] Timer : " + time + " secondes");
-                    player.sendMessage("[NuxNoobs] Message :");
+                    player.sendMessage(ChatColor.GREEN + "[NuxNoobs] File reloaded");
+                    player.sendMessage(ChatColor.GREEN + "[NuxNoobs] Group : " + group);
+                    player.sendMessage(ChatColor.GREEN + "[NuxNoobs] Timer : " + time + " secondes");
+                    player.sendMessage(ChatColor.GREEN + "[NuxNoobs] Message :");
                     for (int i = 0; i < noobMessage.size(); i++) {
-                        player.sendMessage(noobMessage.get(i));
+                        player.sendMessage("    " + ChatColor.GREEN + noobMessage.get(i));
                     }
                 } else {
-                    player.sendMessage("[NuxNoobs] Permission refusée");
+                    player.sendMessage(ChatColor.RED + "[NuxNoobs] Permission denied");
                 }
             } else {
-                player.sendMessage("[NuxNoobs] Commande inconnue");
+                player.sendMessage(ChatColor.RED + "[NuxNoobs] Unknown command");
             }
             event.setCancelled(true);
         }
@@ -72,10 +73,10 @@ public class NNPlayerListener extends PlayerListener {
                 timer = new Timer();
                 timer.schedule(new NNMessage(this), 0, time * 1000);
             } else {
-                NNLogger.severe("Le timer doit être plus grand que 0");
+                NNLogger.severe("The timer must be bigger than 0");
             }
         } else {
-            NNLogger.severe("Fichier de configuration non trouvé : plugins/NuxNoobs/config.yml");
+            NNLogger.severe("File not found : plugins/NuxNoobs/config.yml");
         }
     }
 }

@@ -14,9 +14,8 @@ public class NNPermissions {
 
         if (test != null) {
             permissions = (Permissions) test;
-            NNLogger.info("Plug-in Permission trouvé.");
         } else {
-            NNLogger.severe("Plug-in Permission non trouvé.");
+            NNLogger.severe("Plugin Permission not found");
         }
     }
 
