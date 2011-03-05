@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.config.Configuration;
 
@@ -33,15 +34,19 @@ public class NuxNoobs extends JavaPlugin {
     }
 
     public void onEnable() {
-        NNPermissions.initialize(getServer());
+        NNPermissions.initialize(this);
 
         loadConfig();
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
+
+        PluginDescriptionFile pdfFile = this.getDescription();
+        NNLogger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");
     }
 
     public void onDisable() {
+        timer.cancel();
     }
 
     @Override

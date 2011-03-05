@@ -19,7 +19,7 @@ public class NNMessage extends TimerTask {
             if (NNPermissions.getGroup(playersList[i].getName()).equals(plugin.group)) {
                 ArrayList<String> al = plugin.noobMessage;
                 for (int j = 0; j < al.size(); j++) {
-                    playersList[i].sendMessage(al.get(i));
+                    playersList[i].sendMessage(al.get(j));
                 }
             }
         }
