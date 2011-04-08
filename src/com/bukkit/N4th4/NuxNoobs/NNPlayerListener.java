@@ -1,7 +1,7 @@
 package com.bukkit.N4th4.NuxNoobs;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 
 public class NNPlayerListener extends PlayerListener {
@@ -11,7 +11,7 @@ public class NNPlayerListener extends PlayerListener {
         plugin = instance;
     }
 
-    public void onPlayerJoin(PlayerEvent event) {
+    public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (NNPermissions.getGroup(player.getName()).equals(plugin.group)) {
             for (int i = 0; i < plugin.noobMessage.size(); i++) {
