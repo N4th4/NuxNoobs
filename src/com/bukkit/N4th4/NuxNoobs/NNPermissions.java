@@ -1,32 +1,32 @@
 package com.bukkit.N4th4.NuxNoobs;
 
-import org.anjocaido.groupmanager.GroupManager;
-import org.anjocaido.groupmanager.dataholder.worlds.WorldsHolder;
+import com.nijiko.permissions.PermissionHandler;
+import com.nijikokun.bukkit.Permissions.Permissions;
+
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class NNPermissions {
-    private static WorldsHolder wd;
+    private static PermissionHandler Permissions;
+    private static Server server;
 
     public static void initialize(NuxNoobs plugin) {
-        Plugin p = plugin.getServer().getPluginManager().getPlugin("GroupManager");
-        if (p != null) {
-            if (!plugin.getServer().getPluginManager().isPluginEnabled(p)) {
-                plugin.getServer().getPluginManager().enablePlugin(p);
-            }
-            GroupManager gm = (GroupManager) p;
-            wd = gm.getWorldsHolder();
+        server = plugin.getServer();
+        Plugin test = server.getPluginManager().getPlugin("Permissions");
+
+        if (test != null) {
+            Permissions = ((Permissions) test).getHandler();
         } else {
-            NNLogger.severe("Plugin GroupManager not found");
-            plugin.getPluginLoader().disablePlugin(plugin);
+            NNLogger.info("Permission system not detected, defaulting to OP");
         }
     }
 
     public static String getGroup(String playerName) {
-        return wd.getWorldPermissionsByPlayerName(playerName).getGroup(playerName);
+        return Permissions.getGroup(server.getPlayer(playerName).getWorld().getName(), playerName);
     }
 
     public static boolean has(Player player, String string) {
-        return wd.getWorldPermissions(player).has(player, string);
+        return Permissions.has(player, string);
     }
 }
