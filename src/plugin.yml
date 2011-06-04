@@ -1,6 +1,6 @@
 name: NuxNoobs
 main: com.bukkit.N4th4.NuxNoobs.NuxNoobs
-version: 1.3
+version: 1.4
 commands:
     nuxnoobs:
         description: All of the NuxNoobs commands

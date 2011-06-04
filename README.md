@@ -23,6 +23,7 @@ Example :
         - Your first line
         - Your second line
         - Your third line
+    wmessage : Welcome %nick% ! This message is displayed to everyone connected
 
 The timer is in seconds. The group is optional (default is "Default"). __Never__ use tabulations, only four spaces.
 

@@ -23,6 +23,7 @@ public class NuxNoobs extends JavaPlugin {
     private int time;
     public String group;
     public ArrayList<String> noobMessage;
+    public String welcomeMessage;
 
     public NuxNoobs() {
         NNLogger.initialize();
@@ -31,6 +32,7 @@ public class NuxNoobs extends JavaPlugin {
 
         timer = new Timer();
         noobMessage = new ArrayList<String>();
+        welcomeMessage = "Welcome to %nick%, new player";
     }
 
     public void onEnable() {
@@ -63,6 +65,7 @@ public class NuxNoobs extends JavaPlugin {
                         player.sendMessage(ChatColor.GREEN + "[NuxNoobs] File reloaded");
                         player.sendMessage(ChatColor.GREEN + "[NuxNoobs] Group : " + group);
                         player.sendMessage(ChatColor.GREEN + "[NuxNoobs] Timer : " + time + " secondes");
+                        player.sendMessage(ChatColor.GREEN + "[NuxNoobs] Welcome : " + welcomeMessage);
                         player.sendMessage(ChatColor.GREEN + "[NuxNoobs] Message :");
                         for (int i = 0; i < noobMessage.size(); i++) {
                             player.sendMessage("    " + ChatColor.GREEN + noobMessage.get(i));
@@ -101,6 +104,7 @@ public class NuxNoobs extends JavaPlugin {
             time = config.getInt("timer", 0);
             noobMessage = (ArrayList<String>) config.getStringList("message", noobMessage);
             group = config.getString("group", "Default");
+            welcomeMessage = config.getString("wmessage", welcomeMessage);
             if (time != 0) {
                 timer.cancel();
                 timer = new Timer();

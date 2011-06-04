@@ -1,5 +1,6 @@
 package com.bukkit.N4th4.NuxNoobs;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
@@ -17,6 +18,7 @@ public class NNPlayerListener extends PlayerListener {
             for (int i = 0; i < plugin.noobMessage.size(); i++) {
                 player.sendMessage(plugin.noobMessage.get(i));
             }
+            plugin.getServer().broadcastMessage(ChatColor.AQUA + plugin.welcomeMessage.replace("%nick%", player.getName()));
         }
     }
 }
