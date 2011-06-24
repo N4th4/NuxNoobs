@@ -16,7 +16,7 @@ public class NNMessage extends TimerTask {
     public void run() {
         Player[] playersList = plugin.getServer().getOnlinePlayers();
         for (int i = 0; i < playersList.length; i++) {
-            if (NNPermissions.getGroup(playersList[i].getName()).equals(plugin.group)) {
+            if (plugin.permissions.getUser(playersList[i].getName()).inGroup(plugin.group)) {
                 ArrayList<String> al = plugin.noobMessage;
                 for (int j = 0; j < al.size(); j++) {
                     playersList[i].sendMessage(al.get(j));

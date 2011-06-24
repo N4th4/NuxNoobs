@@ -14,7 +14,7 @@ public class NNPlayerListener extends PlayerListener {
 
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (NNPermissions.getGroup(player.getName()).equals(plugin.group)) {
+        if (plugin.permissions.getUser(player.getName()).inGroup(plugin.group)) {
             for (int i = 0; i < plugin.noobMessage.size(); i++) {
                 player.sendMessage(plugin.noobMessage.get(i));
             }

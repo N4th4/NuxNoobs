@@ -16,32 +16,35 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.config.Configuration;
 
+import ru.tehkode.permissions.PermissionManager;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
+
 public class NuxNoobs extends JavaPlugin {
-    private final NNPlayerListener playerListener;
-    private final HashMap<Player, Boolean> debugees;
-    private Timer timer;
-    private int time;
-    public String group;
-    public ArrayList<String> noobMessage;
-    public String welcomeMessage;
+    private final NNPlayerListener         playerListener = new NNPlayerListener(this);
+    private final HashMap<Player, Boolean> debugees       = new HashMap<Player, Boolean>();
+    private Timer                          timer          = new Timer();
+    private int                            time           = 0;
+    public String                          group          = "Default";
+    public ArrayList<String>               noobMessage    = new ArrayList<String>();
+    public String                          welcomeMessage = "Welcome to %nick%, new player";
+    public PermissionManager               permissions    = null;
 
     public NuxNoobs() {
         NNLogger.initialize();
-        playerListener = new NNPlayerListener(this);
-        debugees = new HashMap<Player, Boolean>();
-
-        timer = new Timer();
-        noobMessage = new ArrayList<String>();
-        welcomeMessage = "Welcome to %nick%, new player";
     }
 
     public void onEnable() {
-        NNPermissions.initialize(this);
-
-        loadConfig();
-
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
+
+        if (this.getServer().getPluginManager().isPluginEnabled("PermissionsEx")) {
+            permissions = PermissionsEx.getPermissionManager();
+        } else {
+            NNLogger.severe("PermissionsEx not found. Disabling");
+            this.getServer().getPluginManager().disablePlugin(this);
+        }
+
+        loadConfig();
 
         PluginDescriptionFile pdfFile = this.getDescription();
         NNLogger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");
@@ -60,7 +63,7 @@ public class NuxNoobs extends JavaPlugin {
                 if (args.length == 0) {
                     player.sendMessage(ChatColor.RED + "[NuxNoobs] Give at least one argument");
                 } else if (args[0].equalsIgnoreCase("reload")) {
-                    if (NNPermissions.has(player, "nuxnoob.reload")) {
+                    if (permissions.has(player, "nuxnoobs.reload")) {
                         loadConfig();
                         player.sendMessage(ChatColor.GREEN + "[NuxNoobs] File reloaded");
                         player.sendMessage(ChatColor.GREEN + "[NuxNoobs] Group : " + group);

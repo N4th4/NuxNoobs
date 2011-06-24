@@ -1,6 +1,8 @@
 name: NuxNoobs
 main: com.bukkit.N4th4.NuxNoobs.NuxNoobs
-version: 1.4
+version: 1.5
+depend:
+    - PermissionsEx
 commands:
     nuxnoobs:
         description: All of the NuxNoobs commands
