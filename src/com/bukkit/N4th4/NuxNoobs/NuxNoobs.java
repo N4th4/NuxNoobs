@@ -12,12 +12,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.config.Configuration;
 
-import ru.tehkode.permissions.PermissionManager;
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import com.nijiko.permissions.PermissionHandler;
+import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class NuxNoobs extends JavaPlugin {
     private final NNPlayerListener         playerListener = new NNPlayerListener(this);
@@ -27,7 +28,7 @@ public class NuxNoobs extends JavaPlugin {
     public String                          group          = "Default";
     public ArrayList<String>               noobMessage    = new ArrayList<String>();
     public String                          welcomeMessage = "Welcome to %nick%, new player";
-    public PermissionManager               permissions    = null;
+    public PermissionHandler               permissions    = null;
 
     public NuxNoobs() {
         NNLogger.initialize();
@@ -37,12 +38,7 @@ public class NuxNoobs extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
 
-        if (this.getServer().getPluginManager().isPluginEnabled("PermissionsEx")) {
-            permissions = PermissionsEx.getPermissionManager();
-        } else {
-            NNLogger.severe("PermissionsEx not found. Disabling");
-            this.getServer().getPluginManager().disablePlugin(this);
-        }
+        setupPermissions();
 
         loadConfig();
 
@@ -85,6 +81,21 @@ public class NuxNoobs extends JavaPlugin {
             sender.sendMessage("[NuxNoob] Only commands in chat are supported");
             return true;
         }
+    }
+    
+    private void setupPermissions() {
+    	if (permissions != null) {
+            return;
+        }
+        
+        Plugin permissionsPlugin = this.getServer().getPluginManager().getPlugin("Permissions");
+        
+        if (permissionsPlugin == null) {
+            NNLogger.severe("Permissions not found");
+            return;
+        }
+        
+        permissions = ((Permissions) permissionsPlugin).getHandler();
     }
 
     public boolean isDebugging(final Player player) {
