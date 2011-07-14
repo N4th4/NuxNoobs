@@ -1,12 +1,12 @@
-NuxKits
-=======
+NuxNoobs
+========
 
 NuxNoobs is a plugin that sends a message every X seconds to your noobs.
 
 Installation
 ------------
 
-* First, you need the PermissionsEX plugin ([here](http://forums.bukkit.org/threads/admn-dev-permissionsex-pex-v1-11-tomorrow-is-today-733-860.18140/)).
+* First, you need the Permissions plugin ([here](http://forums.bukkit.org/threads/admn-dev-permissions-3-1-6-the-plugin-of-tomorrow-935.18430/)).
 * Download the latest jar [here](https://github.com/N4th4/NuxNoobs/downloads).
 * Copy the downloaded jar file into the plugins folder and rename it to "NuxNoobs.jar".
 
